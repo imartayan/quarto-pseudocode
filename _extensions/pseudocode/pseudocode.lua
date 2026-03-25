@@ -61,7 +61,7 @@ end
 
 local function ensure_latex_deps()
   quarto.doc.use_latex_package("algorithm")
-  quarto.doc.use_latex_package("algpseudocode")
+  quarto.doc.use_latex_package("algpseudocodex", "noEnd=false, indLines=false, italicComments=false, rightComments=false, commentColor=black, beginComment=//~")
   quarto.doc.use_latex_package("caption")
   quarto.doc.include_text("in-header", [[
     \makeatletter
@@ -72,6 +72,10 @@ local function ensure_latex_deps()
       \def\@fs@post{\kern2pt\hrule}%
       \def\@fs@mid{\hrule\kern2pt}%
       \let\@fs@iftopcapt\iftrue}
+    \newcommand{\algpxEndIndentHelper}{\algpx@endIndent}
+    \newcommand{\algpxSetCommentColor}[1]{\renewcommand{\algpx@commentColor}{#1}}
+    \newcommand{\algpxSetBeginComment}[1]{\renewcommand{\algpx@beginComment}{#1}}
+    \newcommand{\algpxSetEndComment}[1]{\renewcommand{\algpx@endComment}{#1}}
     \makeatother
   ]])
 end
@@ -212,23 +216,62 @@ local function render_pseudocode_block_latex(global_options)
 
       local options, source_code = extract_source_code_options(el.text, "pdf")
 
-      local comment_delimiter = nil_to_default(options["pdf-comment-delimiter"], "//")
-      local placeholder = "#1"
-
-      if quarto.doc.is_format("beamer") then
-        placeholder = "####1"
+      local algpx_options = ""
+      options["pdf-no-end"] = nil_to_default(options["pdf-no-end"], "false")
+      options["pdf-indent-lines"] = nil_to_default(options["pdf-indent-lines"], "false")
+      options["pdf-italic-comment"] = nil_to_default(options["pdf-italic-comment"], "false")
+      options["pdf-right-comment"] = nil_to_default(options["pdf-right-comment"], "false")
+      options["pdf-comment-color"] = nil_to_default(options["pdf-comment-color"], "black")
+      options["pdf-comment-delimiter"] = nil_to_default(options["pdf-comment-delimiter"], "//"):gsub("%%", "%%%%")
+      if string.lower(options["pdf-no-end"]) == "true" then
+        algpx_options = algpx_options .. [[
+\setbool{algpx@noEnd}{true}%%
+\algtext*{EndWhile}%%
+\algtext*{EndFor}%%
+\algtext*{EndLoop}%%
+\algtext*{EndIf}%%
+\algtext*{EndProcedure}%%
+\algtext*{EndFunction}%%
+\algtext*{EndStructure}%%
+\algtext*{EndClass}%%
+\algtext*{EndProperties}%%
+\algtext*{EndMethods}%%
+\pretocmd{\EndWhile}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndFor}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndLoop}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndIf}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndProcedure}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndFunction}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndStructure}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndClass}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndProperties}{\algpxEndIndentHelper}{}{}%%
+\pretocmd{\EndMethods}{\algpxEndIndentHelper}{}{}%%
+]]
       end
-
-      source_code = "\\algrenewcommand{\\algorithmiccomment}[1]{ " .. comment_delimiter .. " " .. placeholder .. "}\n".. source_code
+      if string.lower(options["pdf-indent-lines"]) == "true" then
+        algpx_options = algpx_options .. "\\setbool{algpx@indLines}{true}%%\n"
+      end
+      if string.lower(options["pdf-italic-comment"]) == "true" then
+        algpx_options = algpx_options .. "\\setbool{algpx@italicComments}{true}%%\n"
+      end
+      if string.lower(options["pdf-right-comment"]) == "true" then
+        algpx_options = algpx_options .. "\\setbool{algpx@rightComments}{true}%%\n"
+      end
+      if string.lower(options["pdf-comment-color"]) ~= "black" then
+        algpx_options = algpx_options .. "\\algpxSetCommentColor{" .. options["pdf-comment-color"] .. "}%%\n"
+      end
+      if string.lower(options["pdf-comment-delimiter"]) ~= "//" then
+        algpx_options = algpx_options .. "\\algpxSetBeginComment{" .. options["pdf-comment-delimiter"] .. "~}%%\n"
+      end
 
       options["pdf-placement"] = nil_to_default(options["pdf-placement"], "H")
       source_code = string.gsub(source_code, "\\begin{algorithm}%s*\n",
         "\\begin{algorithm}[" .. options["pdf-placement"] .. "]\n")
 
       if string.lower(nil_to_default(options["pdf-line-number"], "true")) == "true" then
-        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[1]\n")
+        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[1]\n" .. algpx_options)
       else
-        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[0]\n")
+        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[0]\n" .. algpx_options)
       end
 
       if options["label"] then
