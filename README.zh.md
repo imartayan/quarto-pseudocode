@@ -8,7 +8,7 @@
 
 🇺🇸 [README](README.md) | 🇨🇳 [中文说明](README.zh.md)
 
-一个用于在 `html` 和 `pdf` 文档中渲染伪代码的 Quarto 扩展。`html` 文档基于 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 实现，`pdf` 文档基于 `algorithm` 和 `algpseudocodex` 包实现。
+一个用于在 HTML 和 PDF 文档中渲染伪代码的 Quarto 扩展。HTML 文档基于 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 实现，PDF 文档基于 `algorithm` 和 `algpseudocodex` 包实现。
 
 ## 安装
 
@@ -78,12 +78,12 @@ filters:
 
 全局参数如下：
 
-| 参数               | 默认值      | 格式 | 注释                                        |
-| ------------------ | ----------- | ---- | ------------------------------------------- |
-| `caption-prefix`   | "Algorithm" | 全部 | 标题前缀                                    |
-| `reference-prefix` | "Algorithm" | 全部 | 引用前缀                                    |
-| `caption-number`   | true        | 全部 | 显示内置标题数字                            |
-| `caption-align`    | "left"      | 全部 | 内置标题对齐方式，"left"、"center"或"right" |
+| 参数               | 默认值      | 格式 | 注释                     |
+| ------------------ | ----------- | ---- | ------------------------ |
+| `caption-prefix`   | "Algorithm" | 全部 | 伪代码标题的前缀。       |
+| `reference-prefix` | "Algorithm" | 全部 | 代码交叉引用文本的前缀。 |
+| `caption-number`   | true        | 全部 | 在伪代码标题中显示编号。 |
+| `caption-align`    | "left"      | 全部 | 伪代码标题的对齐方式。   |
 
 将参数添加到文档的头部或 `_metadata.yml` 文件中，例如：
 
@@ -97,25 +97,30 @@ pseudocode:
 
 伪代码参数格式类似 R 和 Python 代码，如下：
 
-| 参数                     | 默认值  | 格式   | 注释                                     |
-| ------------------------ | ------- | ------ | ---------------------------------------- |
-| `label`                  |         | 全部   | 用于引用的标签，如果有必须以 `alg-` 开头 |
-| `html-indent-size`       | "1.2em" | `html` | pseudocode.js 中的 `indentSize`          |
-| `html-comment-delimiter` | "//"    | `html` | pseudocode.js 中的 `commentDelimiter`    |
-| `html-line-number`       | true    | `html` | pseudocode.js 中的 `lineNumber`          |
-| `html-line-number-punc`  | ":"     | `html` | pseudocode.js 中的 `lineNumberPunc`      |
-| `html-no-end`            | false   | `html` | pseudocode.js 中的 `noEnd`               |
-| `pdf-placement`          | "H"     | `pdf`  | 伪代码在文本中的放置方式                 |
-| `pdf-line-number`        | true    | `pdf`  | 是否显示行号                             |
-| `pdf-comment-delimiter`  | "//"    | `pdf`  | 注释分隔符                               |
+| 参数                     | 默认值  | 格式 | 注释                               |
+| ------------------------ | ------- | ---- | ---------------------------------- |
+| `label`                  |         | 全部 | 交叉引用标签，通常以 `alg-` 开头。 |
+| `html-indent-size`       | "1.2em" | HTML | HTML 格式缩进大小。                |
+| `html-comment-delimiter` | "//"    | HTML | HTML 格式注释分隔符。              |
+| `html-line-number`       | true    | HTML | HTML 格式显示行号。                |
+| `html-line-number-punc`  | ":"     | HTML | HTML 格式中行号后使用的标点符号。  |
+| `html-no-end`            | false   | HTML | HTML 格式隐藏结束语句。            |
+| `pdf-placement`          | "H"     | PDF  | PDF 格式中放置伪代码块的放置方式。 |
+| `pdf-line-number`        | true    | PDF  | PDF 格式显示行号。                 |
+| `pdf-comment-delimiter`  | "//"    | PDF  | PDF 格式注释分隔符。               |
+| `pdf-no-end`             | false   | PDF  | PDF 格式隐藏结束语句。             |
+| `pdf-indent-lines`       | false   | PDF  | PDF 格式显示缩进参考线。           |
+| `pdf-italic-comment`     | false   | PDF  | PDF 格式斜体注释。                 |
+| `pdf-right-comment`      | false   | PDF  | PDF 格式右对齐的注释。             |
+| `pdf-comment-color`      | "black" | PDF  | PDF 格式注释颜色。                 |
 
 > [!NOTE]
 >
 > 1. 如果在伪代码块中直接指定方式方式，例如 `\begin{algorithm}[htb!]`，则 `pdf-placement` 参数将被忽略。
 > 2. 如果在伪代码块中直接指定是否显示行号，例如 `\begin{algorithmic}[1]`，则 `pdf-line-number` 参数将被忽略。
-> 3. 所有这些改变不会影响 `html` 文档，建议使用参数选项而非直接修改伪代码。
+> 3. 所有这些改变不会影响 HTML 文档，建议使用参数选项而非直接修改伪代码。
 
-对于 `html` 文档，[pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 使用 [KaTeX](https://katex.org/) 或 [MathJax](https://www.mathjax.org/) 渲染数学公式。本扩展在 html body 之后添加 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js)，因此你需要在 html body 之前或 html header 中初始化 [KaTeX](https://katex.org/) 或 [MathJax](https://www.mathjax.org/)。将相关内容添加到文档的头部或 `_quarto.yml` 文件中：
+对于 HTML 文档，[pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 使用 [KaTeX](https://katex.org/) 或 [MathJax](https://www.mathjax.org/) 渲染数学公式。本扩展在 html body 之后添加 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js)，因此你需要在 html body 之前或 html header 中初始化 [KaTeX](https://katex.org/) 或 [MathJax](https://www.mathjax.org/)。将相关内容添加到文档的头部或 `_quarto.yml` 文件中：
 
 #### MathJax 3
 
@@ -182,7 +187,7 @@ format:
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
 ```
 
-对于 `pdf` 文档，在 `book` 类型项目中将第 `x` 章中伪代码标题序号将由 `Algorithm n` 变为 `Algorithm x.n`。将 `\algrenewcommand{\algorithmiccomment}[1]{<your value> #1}` 添加到文档的头部或 `_quarto.yml` 文件中可以改变注释的显示方式：
+对于 PDF 文档，在 `book` 类型项目中将第 `x` 章中伪代码标题序号将由 `Algorithm n` 变为 `Algorithm x.n`。将 `\algrenewcommand{\algorithmiccomment}[1]{<your value> #1}` 添加到文档的头部或 `_quarto.yml` 文件中可以改变注释的显示方式：
 
 ```yml
 format:
@@ -225,7 +230,7 @@ Quicksort algorithm is shown as @algo-quicksort.
 > 必须设置 `label` 和 `\caption{}` 以确保内置交叉引用正常。
 
 > [!WARNING]
-> 对于 `book` 类型项目，跨文件引用仅在 `pdf` 文档中可用。
+> 对于 `book` 类型项目，跨文件引用仅在 PDF 文档中可用。
 
 #### Quarto 自定义交叉引用
 
@@ -278,27 +283,28 @@ Quicksort algorithm is shown as @alg-quicksort.
 ### 区别
 
 1. Quarto 自定义交叉引用会额外添加一个类似图片的标题，并且其中的数字和伪代码内置标题中的数字可能不一致。
-2. 对于 `book` 类型项目，内置交叉引用跨文件引用仅在 `pdf` 文档中可用。Quarto 自定义交叉引用则在 `html` 和 `pdf` 文档中均可用。
+2. 对于 `book` 类型项目，内置交叉引用跨文件引用仅在 PDF 文档中可用。Quarto 自定义交叉引用则在 HTML 和 PDF 文档中均可用。
 
-目前，除了在 `book` 类型项目 `html` 文档中有跨文件引用需求外，仍建议使用内置交叉引用以取得最佳效果。
+目前，除了在 `book` 类型项目 HTML 文档中有跨文件引用需求外，仍建议使用内置交叉引用以取得最佳效果。
 
 > [!CAUTION]
 > 请勿在同一个项目中使用不同类型的交叉引用。
 
 ## 示例
 
-伪代码在 `html` 和 `pdf` 文档中的渲染结果如下所示。
+伪代码在 HTML 和 PDF 文档中的渲染结果如下所示。
 
-| `html` 文档                        | `pdf` 文档                        |
-| :--------------------------------: | :-------------------------------: |
+
+|            HTML 文档            |            PDF 文档            |
+| :----------------------------------: | :---------------------------------: |
 | ![](screenshots/html-document.png) | ![](screenshots/pdf-document.png) |
 
 更详细的示例请参见：
 
-1. 单文档（`html` 和 `pdf`）：[examples/simple](examples/simple)。
-2. 书籍文档（`html` 和 `pdf`）：[examples/book](examples/book)。
-3. Beamer 文档（`pdf`）：[examples/beamer](examples/beamer)。
-4. 交叉引用示例（`html` 和 `pdf`）：[examples/cross-reference](examples/cross-reference)。
+1. 单文档（HTML 和 PDF）：[examples/simple](examples/simple)。
+2. 书籍文档（HTML 和 PDF）：[examples/book](examples/book)。
+3. Beamer 文档（PDF）：[examples/beamer](examples/beamer)。
+4. 交叉引用示例（HTML 和 PDF）：[examples/cross-reference](examples/cross-reference)。
 
 ## 版权
 

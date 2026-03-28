@@ -2,7 +2,7 @@
 
 ## Test cross reference in different files
 
-Quicksort algorithm is shown as @alg-quicksort (using `@alg-quicksort`). Quarto custom cross reference in different files works both with `html` and `pdf` format.
+Quicksort algorithm is shown as @alg-quicksort (using `@alg-quicksort`). Quarto custom cross reference in different files works both with HTML and PDF format.
 
 ## Test Quarto custom cross reference
 

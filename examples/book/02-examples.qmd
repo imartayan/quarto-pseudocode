@@ -2,7 +2,7 @@
 
 ## Test cross reference in different files
 
-Quicksort algorithm is shown as @algo-quicksort. Build-in cross reference in different files works only with `pdf` format.
+Quicksort algorithm is shown as @algo-quicksort. Build-in cross reference in different files works only with PDF format.
 
 ## Test text-style
 
@@ -298,7 +298,7 @@ Test statements and comments is shown as @algo-test-statements-and-comments.
 ```pseudocode
 #| pdf-italic-comment: true
 #| pdf-right-comment: true
-#| pdf-comment-color: gray
+#| pdf-comment-color: "gray"
 #| pdf-comment-delimiter: "\#"
 
 \begin{algorithm}

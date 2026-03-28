@@ -400,7 +400,7 @@ Test callout is shown as @algo-test-callout.
 ```pseudocode
 #| pdf-italic-comment: true
 #| pdf-right-comment: true
-#| pdf-comment-color: gray
+#| pdf-comment-color: "gray"
 #| pdf-comment-delimiter: "\#"
 
 \begin{algorithm}

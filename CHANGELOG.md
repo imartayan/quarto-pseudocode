@@ -1,11 +1,18 @@
 # Changelog
 
+## [1.4.0](https://github.com/leovan/quarto-pseudocode/compare/v1.3.0...v1.4.0) (2026-03-28)
+
+### Features
+
+- Add Quarto Wizard schema and snippets. [#13](https://github.com/leovan/quarto-pseudocode/pull/13) ([mcanouil](https://github.com/mcanouil))
+- Change `algpseudocode` to `algpseudocodex` to support more features. [#15](https://github.com/leovan/quarto-pseudocode/pull/15) ([imartayan](https://github.com/imartayan))
+
 ## [1.3.0](https://github.com/leovan/quarto-pseudocode/compare/v1.2.0...v1.3.0) (2026-02-01)
 
 ### Features
 
 - Add MathJax 4 support.
-- Add parameter `pdf-comment-delimiter` for `pdf` document.
+- Add parameter `pdf-comment-delimiter` for PDF document.
 
 ### Bug Fixes
 
@@ -15,7 +22,7 @@
 
 ### Bug Fixes
 
-- Make filter compatible with Quarto 1.8. ([#11](https://github.com/leovan/quarto-pseudocode/issues/11))
+- Make filter compatible with Quarto 1.8. [#11](https://github.com/leovan/quarto-pseudocode/issues/11)
 
 > [!WARNING]
 >
@@ -31,15 +38,15 @@
 
 ### Bug Fixes
 
-- Fix wrong comment delimiter. ([#10](https://github.com/leovan/quarto-pseudocode/issues/10))
+- Fix wrong comment delimiter. [#10](https://github.com/leovan/quarto-pseudocode/issues/10)
 
 ## [1.1.2](https://github.com/leovan/quarto-pseudocode/compare/v1.1.1...v1.1.2) (2025-08-02)
 
 ### Bug Fixes
 
-- Respect options in meta data. ([#8](https://github.com/leovan/quarto-pseudocode/issues/8))
+- Respect options in meta data. [#9](https://github.com/leovan/quarto-pseudocode/pull/9) ([RyoNakagami](https://github.com/RyoNakagami))
 - Fix alignment when using Quarto custom cross reference.
-- Fix `pdf-line-number` not working for `pdf` document.
+- Fix `pdf-line-number` not working for PDF document.
 
 ## [1.1.1](https://github.com/leovan/quarto-pseudocode/compare/v1.1.0...v1.1.1) (2024-11-03)
 

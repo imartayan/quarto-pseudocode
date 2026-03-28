@@ -74,7 +74,7 @@ Test atoms is shown as @algo-test-atoms.
 ```pseudocode
 #| pdf-italic-comment: true
 #| pdf-right-comment: true
-#| pdf-comment-color: gray
+#| pdf-comment-color: "gray"
 #| pdf-comment-delimiter: "\#"
 
 \begin{algorithm}
