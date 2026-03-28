@@ -175,4 +175,145 @@ Test statements and comments is shown as @algo-test-statements-and-comments.
 \end{algorithm}
 ```
 
+::: {.content-visible when-format="pdf"}
+## Test `algpseudocodex` features
+
+```pseudocode
+#| pdf-no-end: true
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-indent-lines: true
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-no-end: true
+#| pdf-indent-lines: true
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-italic-comment: true
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Comment{this is a loop}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-right-comment: true
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Comment{this is a loop}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-comment-color: "blue"
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Comment{this is a loop}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-comment-delimiter: "\%"
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Comment{this is a loop}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+
+```pseudocode
+#| pdf-italic-comment: true
+#| pdf-right-comment: true
+#| pdf-comment-color: gray
+#| pdf-comment-delimiter: "\#"
+
+\begin{algorithm}
+\begin{algorithmic}
+\Procedure{Test-While}{$n$}
+  \State $i \gets 0$
+  \While{$i < n$}
+    \Comment{this is a loop}
+    \Print $i$
+    \State $i \gets i + 1$
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+```
+:::
+
 \listofalgorithms{}

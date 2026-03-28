@@ -8,7 +8,7 @@
 
 🇺🇸 [README](README.md) | 🇨🇳 [中文说明](README.zh.md)
 
-一个用于在 `html` 和 `pdf` 文档中渲染伪代码的 Quarto 扩展。`html` 文档基于 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 实现，`pdf` 文档基于 `algorithm` 和 `algpseudocode` 包实现。
+一个用于在 `html` 和 `pdf` 文档中渲染伪代码的 Quarto 扩展。`html` 文档基于 [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) 实现，`pdf` 文档基于 `algorithm` 和 `algpseudocodex` 包实现。
 
 ## 安装
 
