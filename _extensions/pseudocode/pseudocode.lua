@@ -3,9 +3,11 @@ local function ensure_html_deps()
     name = "pseudocode",
     version = "2.4.1",
     scripts = { "pseudocode.min.js" },
-    stylesheets = { "pseudocode.min.css" }
+    stylesheets = { "pseudocode.min.css" },
   })
-  quarto.doc.include_text("in-header", [[
+  quarto.doc.include_text(
+    "in-header",
+    [[
     <style type="text/css">
     .ps-root .ps-algorithm {
       border-top: 2px solid;
@@ -15,8 +17,11 @@ local function ensure_html_deps()
       text-align: left;
     }
     </style>
-  ]])
-  quarto.doc.include_text("after-body", [[
+  ]]
+  )
+  quarto.doc.include_text(
+    "after-body",
+    [[
     <script type="text/javascript">
     (function(d) {
       d.querySelectorAll(".pseudocode-container").forEach(function(el) {
@@ -48,7 +53,8 @@ local function ensure_html_deps()
       });
     })(document);
     </script>
-  ]])
+  ]]
+  )
 end
 
 local function nil_to_default(value, default)
@@ -61,9 +67,14 @@ end
 
 local function ensure_latex_deps()
   quarto.doc.use_latex_package("algorithm")
-  quarto.doc.use_latex_package("algpseudocodex", "noEnd=false, indLines=false, italicComments=false, rightComments=false, commentColor=black, beginComment=//~")
+  quarto.doc.use_latex_package(
+    "algpseudocodex",
+    "noEnd=false, indLines=false, italicComments=false, rightComments=false, commentColor=black, beginComment=//~"
+  )
   quarto.doc.use_latex_package("caption")
-  quarto.doc.include_text("in-header", [[
+  quarto.doc.include_text(
+    "in-header",
+    [[
     \makeatletter
     \newcommand\fs@nocaption{
       \def\@fs@cfont{\bfseries}
@@ -77,7 +88,8 @@ local function ensure_latex_deps()
     \newcommand{\algpxSetBeginComment}[1]{\renewcommand{\algpx@beginComment}{#1}}
     \newcommand{\algpxSetEndComment}[1]{\renewcommand{\algpx@endComment}{#1}}
     \makeatother
-  ]])
+  ]]
+  )
 end
 
 local function extract_source_code_options(source_code, render_type)
@@ -94,8 +106,8 @@ local function extract_source_code_options(source_code, render_type)
         if idx_start and idx_end and idx_end + 1 < #str then
           k = string.sub(str, 1, idx_start - 1)
           v = string.sub(str, idx_end + 1)
-          v = string.gsub(v, "^%s*\"", "")
-          v = string.gsub(v, "\"%s*$", "")
+          v = string.gsub(v, '^%s*"', "")
+          v = string.gsub(v, '"%s*$', "")
 
           options[k] = v
         else
@@ -178,7 +190,7 @@ local function render_pseudocode_block_html(global_options)
       end
 
       return outer_el
-    end
+    end,
   }
 
   return filter
@@ -190,7 +202,10 @@ local function render_pseudocode_block_latex(global_options)
   if global_options.caption_number then
     quarto.doc.include_text("before-body", "\\floatname{algorithm}{" .. global_options.caption_prefix .. "}")
   else
-    quarto.doc.include_text("in-header", "\\DeclareCaptionLabelFormat{algnonumber}{" .. global_options.caption_prefix .. "}")
+    quarto.doc.include_text(
+      "in-header",
+      "\\DeclareCaptionLabelFormat{algnonumber}{" .. global_options.caption_prefix .. "}"
+    )
     quarto.doc.include_text("before-body", "\\captionsetup[algorithm]{labelformat=algnonumber}")
   end
 
@@ -215,63 +230,73 @@ local function render_pseudocode_block_latex(global_options)
       end
 
       local options, source_code = extract_source_code_options(el.text, "pdf")
+      local algpseudocodex_options = ""
 
-      local algpx_options = ""
       options["pdf-no-end"] = nil_to_default(options["pdf-no-end"], "false")
       options["pdf-indent-lines"] = nil_to_default(options["pdf-indent-lines"], "false")
       options["pdf-italic-comment"] = nil_to_default(options["pdf-italic-comment"], "false")
       options["pdf-right-comment"] = nil_to_default(options["pdf-right-comment"], "false")
       options["pdf-comment-color"] = nil_to_default(options["pdf-comment-color"], "black")
       options["pdf-comment-delimiter"] = nil_to_default(options["pdf-comment-delimiter"], "//"):gsub("%%", "%%%%")
+      
       if string.lower(options["pdf-no-end"]) == "true" then
-        algpx_options = algpx_options .. [[
-\setbool{algpx@noEnd}{true}%%
-\algtext*{EndWhile}%%
-\algtext*{EndFor}%%
-\algtext*{EndLoop}%%
-\algtext*{EndIf}%%
-\algtext*{EndProcedure}%%
-\algtext*{EndFunction}%%
-\algtext*{EndStructure}%%
-\algtext*{EndClass}%%
-\algtext*{EndProperties}%%
-\algtext*{EndMethods}%%
-\pretocmd{\EndWhile}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndFor}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndLoop}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndIf}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndProcedure}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndFunction}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndStructure}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndClass}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndProperties}{\algpxEndIndentHelper}{}{}%%
-\pretocmd{\EndMethods}{\algpxEndIndentHelper}{}{}%%
-]]
+        algpseudocodex_options = algpseudocodex_options
+          .. [[
+          \setbool{algpx@noEnd}{true}%%
+          \algtext*{EndWhile}%%
+          \algtext*{EndFor}%%
+          \algtext*{EndLoop}%%
+          \algtext*{EndIf}%%
+          \algtext*{EndProcedure}%%
+          \algtext*{EndFunction}%%
+          \algtext*{EndStructure}%%
+          \algtext*{EndClass}%%
+          \algtext*{EndProperties}%%
+          \algtext*{EndMethods}%%
+          \pretocmd{\EndWhile}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndFor}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndLoop}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndIf}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndProcedure}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndFunction}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndStructure}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndClass}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndProperties}{\algpxEndIndentHelper}{}{}%%
+          \pretocmd{\EndMethods}{\algpxEndIndentHelper}{}{}%%
+        ]]
       end
       if string.lower(options["pdf-indent-lines"]) == "true" then
-        algpx_options = algpx_options .. "\\setbool{algpx@indLines}{true}%%\n"
+        algpseudocodex_options = algpseudocodex_options .. "\\setbool{algpx@indLines}{true}%%\n"
       end
       if string.lower(options["pdf-italic-comment"]) == "true" then
-        algpx_options = algpx_options .. "\\setbool{algpx@italicComments}{true}%%\n"
+        algpseudocodex_options = algpseudocodex_options .. "\\setbool{algpx@italicComments}{true}%%\n"
       end
       if string.lower(options["pdf-right-comment"]) == "true" then
-        algpx_options = algpx_options .. "\\setbool{algpx@rightComments}{true}%%\n"
+        algpseudocodex_options = algpseudocodex_options .. "\\setbool{algpx@rightComments}{true}%%\n"
       end
       if string.lower(options["pdf-comment-color"]) ~= "black" then
-        algpx_options = algpx_options .. "\\algpxSetCommentColor{" .. options["pdf-comment-color"] .. "}%%\n"
+        algpseudocodex_options = algpseudocodex_options .. "\\algpxSetCommentColor{" .. options["pdf-comment-color"] .. "}%%\n"
       end
       if string.lower(options["pdf-comment-delimiter"]) ~= "//" then
-        algpx_options = algpx_options .. "\\algpxSetBeginComment{" .. options["pdf-comment-delimiter"] .. "~}%%\n"
+        algpseudocodex_options = algpseudocodex_options
+          .. "\\algpxSetBeginComment{"
+          .. options["pdf-comment-delimiter"]
+          .. "~}%%\n"
       end
 
       options["pdf-placement"] = nil_to_default(options["pdf-placement"], "H")
-      source_code = string.gsub(source_code, "\\begin{algorithm}%s*\n",
-        "\\begin{algorithm}[" .. options["pdf-placement"] .. "]\n")
+      source_code = string.gsub(
+        source_code,
+        "\\begin{algorithm}%s*\n",
+        "\\begin{algorithm}[" .. options["pdf-placement"] .. "]\n"
+      )
 
       if string.lower(nil_to_default(options["pdf-line-number"], "true")) == "true" then
-        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[1]\n" .. algpx_options)
+        source_code =
+          string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[1]\n" .. algpseudocodex_options)
       else
-        source_code = string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[0]\n" .. algpx_options)
+        source_code =
+          string.gsub(source_code, "\\begin{algorithmic}%s*\n", "\\begin{algorithmic}[0]\n" .. algpseudocodex_options)
       end
 
       if options["label"] then
@@ -279,13 +304,17 @@ local function render_pseudocode_block_latex(global_options)
       end
 
       if string.find(source_code, "\\caption{") then
-        source_code = "\\floatstyle{ruled}\n\\restylefloat{algorithm}\n" .. source_code .. "\n\\floatstyle{plain}\n"
+        source_code = "\\floatstyle{ruled}\n\\restylefloat{algorithm}\n"
+          .. source_code
+          .. "\n\\floatstyle{plain}\n"
       else
-        source_code = "\\floatstyle{nocaption}\n\\restylefloat{algorithm}\n" .. source_code .. "\n\\floatstyle{plain}\n"
+        source_code = "\\floatstyle{nocaption}\n\\restylefloat{algorithm}\n"
+          .. source_code
+          .. "\n\\floatstyle{plain}\n"
       end
 
       return pandoc.RawInline("latex", source_code)
-    end
+    end,
   }
 
   return filter
@@ -295,7 +324,7 @@ local function render_pseudocode_block(global_options)
   local filter = {
     CodeBlock = function(el)
       return el
-    end
+    end,
   }
 
   if quarto.doc.is_format("html") then
@@ -329,7 +358,7 @@ local function render_pseudocode_ref_html(global_options)
           return link
         end
       end
-    end
+    end,
   }
 
   return filter
@@ -341,10 +370,12 @@ local function render_pseudocode_ref_latex(global_options)
       local cite_text = pandoc.utils.stringify(el.content)
 
       if string.match(cite_text, "^@algo-") then
-        return pandoc.RawInline("latex",
-          global_options.reference_prefix .. "~\\ref{" .. string.gsub(cite_text, "^@", "") .. "}")
+        return pandoc.RawInline(
+          "latex",
+          global_options.reference_prefix .. "~\\ref{" .. string.gsub(cite_text, "^@", "") .. "}"
+        )
       end
-    end
+    end,
   }
 
   return filter
@@ -354,7 +385,7 @@ local function render_pseudocode_ref(global_options)
   local filter = {
     Cite = function(el)
       return el
-    end
+    end,
   }
 
   if quarto.doc.is_format("html") then
@@ -375,18 +406,21 @@ function Pandoc(doc)
     number_with_in_chapter = false,
     html_chapter_level = nil,
     html_current_number = 1,
-    html_identifier_number_mapping = {}
+    html_identifier_number_mapping = {},
   }
 
   if doc.meta["pseudocode"] then
-    global_options.caption_prefix = pandoc.utils.stringify(nil_to_default(doc.meta["pseudocode"]["caption-prefix"],
-      global_options.caption_prefix))
-    global_options.reference_prefix = pandoc.utils.stringify(nil_to_default(doc.meta["pseudocode"]["reference-prefix"],
-      global_options.reference_prefix))
-    global_options.caption_number = nil_to_default(doc.meta["pseudocode"]["caption-number"],
-      global_options.caption_number)
-    global_options.caption_align = pandoc.utils.stringify(nil_to_default(doc.meta["pseudocode"]["caption-align"],
-      global_options.caption_align))
+    global_options.caption_prefix = pandoc.utils.stringify(
+      nil_to_default(doc.meta["pseudocode"]["caption-prefix"], global_options.caption_prefix)
+    )
+    global_options.reference_prefix = pandoc.utils.stringify(
+      nil_to_default(doc.meta["pseudocode"]["reference-prefix"], global_options.reference_prefix)
+    )
+    global_options.caption_number =
+      nil_to_default(doc.meta["pseudocode"]["caption-number"], global_options.caption_number)
+    global_options.caption_align = pandoc.utils.stringify(
+      nil_to_default(doc.meta["pseudocode"]["caption-align"], global_options.caption_align)
+    )
   end
 
   if doc.meta["book"] then
@@ -397,7 +431,11 @@ function Pandoc(doc)
       local renders = doc.meta["book"]["render"]
 
       for _, render in pairs(renders) do
-        if render["file"] and render["number"] and pandoc.utils.stringify(render["file"]) == input_qmd_filename then
+        if
+          render["file"]
+          and render["number"]
+          and pandoc.utils.stringify(render["file"]) == input_qmd_filename
+        then
           global_options.html_chapter_level = pandoc.utils.stringify(render["number"])
         end
       end

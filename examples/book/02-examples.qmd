@@ -175,8 +175,6 @@ Test statements and comments is shown as @algo-test-statements-and-comments.
 \end{algorithm}
 ```
 
-\listofalgorithms{}
-
 ::: {.content-visible when-format="pdf"}
 ## Test `algpseudocodex` features
 
@@ -317,3 +315,5 @@ Test statements and comments is shown as @algo-test-statements-and-comments.
 \end{algorithm}
 ```
 :::
+
+\listofalgorithms{}

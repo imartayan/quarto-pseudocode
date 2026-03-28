@@ -8,7 +8,7 @@
 
 🇺🇸 [README](README.md) | 🇨🇳 [中文说明](README.zh.md)
 
-A Quarto extension to render pseudocode for `html` and `pdf` document. It's based on [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) for `html` document, `algorithm` and `algpseudocode` package for `pdf` document.
+A Quarto extension to render pseudocode for `html` and `pdf` document. It's based on [pseudocode.js](https://github.com/SaswatPadhi/pseudocode.js) for `html` document, `algorithm` and `algpseudocodex` package for `pdf` document.
 
 ## Installing
 
